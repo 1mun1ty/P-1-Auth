@@ -12,5 +12,9 @@ authRouter.post('/verfiy-account', userAuth, authController.verifyEmail)
 authRouter.post('/is-auth', userAuth, authController.isAuthenticated)
 authRouter.post('/send-reset-otp', authController.passwordResetOtp)
 authRouter.post('/reset-password', authController.resetPassword)
+authRouter.get('/users', authController.allUser)
+authRouter.get('/users/:id', authController.getUser)
+authRouter.delete('/users/:id', authController.deleteUser)
+authRouter.post('/updateUser', authController.updateUser)
 
 module.exports = authRouter

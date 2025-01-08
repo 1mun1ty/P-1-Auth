@@ -454,9 +454,182 @@ exports.resetPassword = async (req,res) => {
         await user.save()
 
         return res.json({
-            status: false,
+            status: true,
             data: {
                 message: "Password Rest"
+            }
+        })
+        
+    } catch (error) {
+
+        res.json({
+            status: false,
+            data: {
+                message: error.message
+            }
+        })
+    }
+}
+
+// GET ALL USER
+exports.allUser = async (req,res ) => {
+
+    const users = await userModel.find()
+
+    try {
+        
+        res.json({
+            status: true,
+            data: {
+                message: "All User",
+                users: userModel.length,
+                users
+            }
+        })
+    } catch (error) {
+        res.json({
+            status: false,
+            data: {
+                message: error.message
+            }
+        }) 
+    }
+}
+
+// GET USER BY ID
+exports.getUser = async (req,res) => {
+    try {
+
+    const userId = req.params.id
+    const user = await userModel.findById(userId)
+
+    if(!user)
+    {
+        return res.json({
+            status: false,
+            data: {
+                message: "user not fount"
+            }
+        }) 
+    }
+
+    res.json({
+        status: true,
+        data: {
+            message: "user found",
+            user
+        }
+    }) 
+    
+        
+
+    } catch (error) {
+
+        res.json({
+            status: false,
+            data: {
+                message: error.message
+            }
+        })
+    }
+}
+
+// DEETE USER
+exports.deleteUser = async (req,res) => {
+    try {
+       
+        const userId = req.params.id
+        const user = await userModel.findByIdAndDelete(userId)
+
+        if(!user)
+        {
+           return res.json({
+                status: false,
+                data: {
+                    message: "User not Found"
+                }
+            })
+        }
+
+        res.json({
+            status: true,
+            data: {
+                message: "User Deleted"
+            }
+        })
+
+    } catch (error) {
+        res.json({
+            status: false,
+            data: {
+                message: error.message
+            }
+        })
+    }
+}
+
+// UPDATE USER
+exports.updateUser = async (req,res) => {
+
+    const {email, username, password, newUserName} = req.body
+
+    if(!email || !username || !password || !newUserName)
+        {
+            return res.json({
+                status: false,
+                data: {
+                    message: "Missing Details"
+                }
+            })
+        }  
+    
+    try {
+
+        const user = await userModel.findOne({email})
+        
+        if(!user)
+        {
+            return res.json({
+                status: false,
+                data: {
+                    message: "User no found"
+                }
+            })
+        }
+             // CHECKING PASSWORD 
+     const passwordIsMatch = await bcrypt.compare(password, user.password)
+
+     if(!passwordIsMatch)
+     {
+        return res.json({
+            status: false,
+            data: {
+                message: "Invalid Password"
+            }
+        })
+        
+     }
+
+     const existingUser = await userModel.findOne({ username: newUserName });
+
+     if(existingUser)
+     {
+        return res.json({
+            status: false,
+            data: {
+                message: "user Allready exits"
+            }
+        })
+     }
+
+        user.username = newUserName
+
+        await user.save()
+
+        return res.json({
+            status: true,
+            data: {
+                message: "Username Update"
             }
         })
         
