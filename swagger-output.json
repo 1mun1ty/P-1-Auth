@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "localhost:4321",
-  "basePath": "/",
+  "basePath": "/api/auth",
   "schemes": [
     "http"
   ],
