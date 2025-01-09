@@ -5,7 +5,15 @@ const cookieParser = require('cookie-parser')
 require('dotenv/config')
 const connetDB = require('./database/db')
 const authRouter = require('./routes/authRoutes.js')
+const swaggerUi = require('swagger-ui-express')
+const fs = require('fs')
+const yaml = require('js-yaml')
+const swaggerDocument = yaml.load(fs.readFileSync('api-docs.yaml', 'utf8'))
+
+
+
 // APP
+
 const app = express()
 const port = process.env.PORT || 4321
 
@@ -14,6 +22,7 @@ const port = process.env.PORT || 4321
 connetDB()
 
 // MIDDLEWARE
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({credentials : true}))
