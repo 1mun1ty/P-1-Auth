@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "swagger": "node ./swagger.js"
   },
   "author": "1mmun1ty",
   "license": "ISC",
@@ -19,5 +20,8 @@
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.9",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
   }
 }

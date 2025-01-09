@@ -6,9 +6,7 @@ require('dotenv/config')
 const connetDB = require('./database/db')
 const authRouter = require('./routes/authRoutes.js')
 const swaggerUi = require('swagger-ui-express')
-const fs = require('fs')
-const yaml = require('js-yaml')
-const swaggerDocument = yaml.load(fs.readFileSync('api-docs.yaml', 'utf8'))
+const swaggerDocument = require('./swagger-output.json')
 
 
 
